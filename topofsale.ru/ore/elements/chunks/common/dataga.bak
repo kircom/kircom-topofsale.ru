@@ -1,0 +1,110 @@
+<script>
+window.dataLayer = window.dataLayer || [];
+"dataLayer = [{"
+{* идентификатор транзакции = ID заказа *} 
+'transactionId': ' [+order.num]',
+'transactionAffiliation': {$modx->config["site_name"]}',
+{* название магазина где была осуществлена продажа *}
+'transactionTotal': {$order["cost"]}',
+{* общая сумма транзакции; *}
+'transactionTax': '0',
+{* сумма налога *}
+'transactionShipping': '0',
+{* стоимость доставки *}
+'transactionProducts': ["
+{for $product=0 to=$products|length}
+    {* Получаем название группы *}
+    {$parent = $_modx->getObject('modResource',$product["parent"]) }
+    {$name_group = $parent->get($pagetitle)}
+    
+    {* артикул товара = id товарв ??? *}
+    '{sku': ' {$product["id"]}',
+    {$str=$str ~ "'name': '" ~ $product["pagetitle"] ~ "'," ~ "\n"} 
+    {$str=$str ~ "'category': '" ~ $name_group ~ "'," ~ "\n"}
+    {$str=$str ~ "'price': '" ~ $product["price"] ~ "'," ~ "\n"}
+    {$str=$str ~ "'quantity': '1'" ~ "\n"}
+    {$str=$str ~ "}," ~ "\n"} 
+{/for}
+{$str=$str ~ "]" ~ "\n"}
+{$str=$str ~ "}];" ~ "\n"}
+{$str=$str ~ '</script>' ~ "\n"}
+</script>
+
+
+
+{*
+window.dataLayer = window.dataLayer || [];
+"dataLayer = [{"
+'transactionId': ' {$order["num"]}',
+'transactionAffiliation': '{$modx->config["site_name"]}',
+'transactionTotal': '{$order["cost"]}',
+'transactionTax': '0',
+'transactionShipping': '0',
+'transactionProducts': ["
+
+{for $product=0 to=$products|length}
+    {* Получаем название группы *}
+    {$parent = $_modx->getObject('modResource',$product["parent"]) }
+    {$name_group = $parent->get($pagetitle)}
+    
+    {* артикул товара = id товарв ??? *}
+    '{sku': ' {$product["id"]}',
+    {$str=$str ~ "'name': '" ~ $product["pagetitle"] ~ "'," ~ "\n"} 
+    {$str=$str ~ "'category': '" ~ $name_group ~ "'," ~ "\n"}
+    {$str=$str ~ "'price': '" ~ $product["price"] ~ "'," ~ "\n"}
+    {$str=$str ~ "'quantity': '1'" ~ "\n"}
+    {$str=$str ~ "}," ~ "\n"} 
+{/for}
+{$str=$str ~ "]" ~ "\n"}
+{$str=$str ~ "}];" ~ "\n"}
+{$str=$str ~ '</script>' ~ "\n"}
+*}
+<!-- /script -->
+
+
+
+
+
+       foreach ($products as $product) {
+//         // Получаем название группы        
+//         $parent = $modx->getObject('modResource',$product["parent"]);
+//         $name_group = $parent ->get($pagetitle);
+//         $str=$str . "{" . "\n"; 
+//         $str=$str . "'sku': '" . $product["id"] . "',". "\n"; // артикул товара = id товарв ???
+//         $str=$str . "'name': '" . $product["pagetitle"] . "'," . "\n"; 
+//         $str=$str . "'category': '" . $name_group . "'," . "\n";
+//         $str=$str . "'price': '" . $product["price"] ."'," . "\n";
+//         $str=$str . "'quantity': '1'" . "\n";
+//         $str=$str . "}," . "\n"; 
+//     }
+//     $str=$str . "]" . "\n";
+//     $str=$str . "}];" . "\n";
+//     $str=$str .'</script>' . "\n";
+
+
+{ignore}
+<script>
+    "window.dataLayer = window.dataLayer || [];"
+    "dataLayer = [{"
+        'transactionId':' {$order.num} ',  {* идентификатор транзакции = ID заказа ?? *}
+        'transactionAffiliation': ' {$_modx->config["site_name"]} ', {* название магазина  *}
+        'transactionTotal': ' {$order.cost} ', {* общая сумма транзакции *}
+        'transactionTax': '0',        {* сумма налога *}
+        'transactionShipping': '0',   {* стоимость доставки *}
+        'transactionProducts': [
+        {foreach 0..count($products) as $product}
+           {* Получаем название группы *}
+           {var $parent = $_modx->getObject('modResource',{$product.parent})}
+           {var $name_group = $parent ->get($pagetitle)}
+           {
+            'sku': {$product.id} ',  {* артикул товара = id товарв *}
+            'name': '{$product.pagetitle}',
+            'category': '{$name_group} ',
+            'price': '{$product.price}',
+            'quantity': '1',
+           },
+        {/foreach}
+      "]"
+    "}];
+   </script>
+{/ignore}
